@@ -41,16 +41,19 @@ app.use(session({
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(helmet.contentSecurityPolicy({
-    directives: {
-        defaultSrc: ["*"],
-        scriptSrc: ["*"],
-        styleSrc: ['*', "'unsafe-inline'"],
-        frameSrc: ['*'],
-        // "frame-ancestors": ["'self'"],
-        upgradeInsecureRequests: [] 
-    }
-}));
+
+    // Redireccionamiento 301
+// app.use(function forceLiveDomain (req, res, next) {
+//     var host = req.get('Host');
+//     console.log(req.originalUrl)
+
+//     if (host === 'localhost:4000') {
+//         return res.redirect(301, 'https://DarlingPhotos' + req.originalUrl);
+//     }
+//     return next();
+    
+// });
+
 
 // GLOBAL VARIABLES
 app.use((req, res, next) => {

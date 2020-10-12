@@ -7,8 +7,8 @@ const { renderCarrito, carritoAddProducto, comprarCarrito } = require('../contro
 
 router.use(isLoggedIn);
 
-router.get('/', renderCarrito);
-router.post('/add/:id', carritoAddProducto);
-router.get('/comprar', comprarCarrito);
+router.get('/', isLoggedIn,renderCarrito);
+router.post('/add/:id', isLoggedIn, carritoAddProducto);
+router.get('/comprar', isLoggedIn, comprarCarrito);
 
 module.exports = router;

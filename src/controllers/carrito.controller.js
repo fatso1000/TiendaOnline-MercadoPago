@@ -41,6 +41,8 @@ carritoCtrl.renderCarrito = async (req, res) => {
 carritoCtrl.carritoAddProducto = async (req, res) => {
     const {id} = req.params;
     const  { cantidad } = req.body;
+    // Esta variable contiene una 
+    const cantidadPermitida = (cantidad > 0) ? true : false;
     const list = await pool.query('SELECT * FROM productos WHERE id = ?', [id]);
     
     const newCarrito = {
@@ -52,7 +54,7 @@ carritoCtrl.carritoAddProducto = async (req, res) => {
 
     // COMPROBACION DE EXISTENCIA DEL PRODUCTO EN EL CARRITO
     const sql = await pool.query('SELECT * FROM carrito WHERE producto_id = ? AND user_id = ?', [newCarrito.producto_id, req.user.id]); 
-    if (sql.length > 0) {
+    if (sql.length > 0 && cantidadPermitida === true) {
         
         const newSql = {
             producto_id: sql[0].producto_id,
@@ -68,11 +70,19 @@ carritoCtrl.carritoAddProducto = async (req, res) => {
             res.redirect('/carrito');
         } 
 
-    } else {
+    } else if (cantidadPermitida === true) {
+
         await pool.query('INSERT INTO carrito set ?', [newCarrito]);
         req.flash('success', 'Producto añadido correctamente.' + newCarrito.producto);
         res.redirect('/carrito');
+    
+    } else {
+
+        req.flash('message', 'Cantidad insuficiente, añada mas cantidad.');
+        res.redirect(req.get('referer'));
+    
     }
+
 };
 
 carritoCtrl.comprarCarrito = async (req, res) => {
