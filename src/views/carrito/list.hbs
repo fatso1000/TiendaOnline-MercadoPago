@@ -1,0 +1,53 @@
+<div class="container p-4">
+    <div class="row">
+
+        {{!-- QUE RECORRA CADA REGISTRO DE PRODUCTOS --}}
+        {{#if lista}}
+            {{#each lista}}
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <a href="/productos/tienda/{{producto_id}}">
+                            <h3 class="card-title text-uppercase">
+                                {{producto}}
+                            </h3>
+                        </a>
+                        <p class="m-2">Cantidad: {{cantidad}}</p>
+                        <p>Precio: {{precio}}</p>
+                        <p>Pedido realizado: {{timeago created_at}}</p>
+                        <a href="/carrito/delete/{{id}}" class="btn btn-danger btn-block">Eliminar</a>
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+
+                            <h3 class="card-title text-uppercase">
+                                ${{newPrice.total}}
+                            </h3>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 ">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <a href="/carrito/comprar" class="btn btn-success btn-block">Comprar</a>
+                    </div>
+                </div>
+            </div>
+        {{else}}
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h3 class="card-title text-uppercase">No existe ningun producto en el carrito</h3>
+                        <a href="/productos/tienda">Ir a la tienda</a>
+                    </div>
+                </div>
+            </div>
+        {{/if}}
+
+    </div>
+</div>
